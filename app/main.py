@@ -31,7 +31,7 @@ options = {
 }
 
 @app.get("/")
-async def health_check():
+async def optios_route():
     return options
 
 app.include_router(search_bp, prefix="/api")
