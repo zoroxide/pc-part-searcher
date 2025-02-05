@@ -3,7 +3,7 @@ import os
 import uvicorn
 
 # docker build -t pcpartsearcher .
-# docker run -p 8000:8000 pcpartsearcher
+# docker run --name=pc-part-searcher -p 8000:8000 pcpartsearcher
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
