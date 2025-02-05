@@ -6,14 +6,32 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all methods
-    allow_headers=["*"],  # Allow all headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
-@app.get("/health")
+options = {
+    "Message": "Welcome to PC Part Searcher API, use the following instructions:",
+    "Note":"sometimes search might take a while if you selected a big number of vendors",
+    "search_endpoint": "/api/search",
+    "search_options": {
+        "search_term": "string (e.g., 'rtx')",
+        "source_filters": {
+            "amazon": "boolean (true/false)",
+            "baraka": "boolean (true/false)",
+            "olx":"boolean (true/false)",
+            "sigma": "boolean (true/false)",
+            "badr": "boolean (true/false)",
+            "alfrensia":"boolean (true/false)"
+        }
+    }, 
+    "Comming Soon": "Compumarts"
+}
+
+@app.get("/")
 async def health_check():
-    return {"status": "healthy"}
+    return options
 
 app.include_router(search_bp, prefix="/api")
