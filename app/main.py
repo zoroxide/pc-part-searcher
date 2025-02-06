@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 from app.routes.search_routes import search_bp
 
 app = FastAPI()
@@ -12,26 +13,39 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-options = {
-    "Message": "Welcome to PC Part Searcher API, use the following instructions:",
-    "Note":"sometimes search might take a while if you selected a big number of vendors",
-    "search_endpoint": "/api/search",
-    "search_options": {
-        "search_term": "string (e.g., 'rtx')",
-        "source_filters": {
-            "amazon": "boolean (true/false)",
-            "baraka": "boolean (true/false)",
-            "olx":"boolean (true/false)",
-            "sigma": "boolean (true/false)",
-            "badr": "boolean (true/false)",
-            "alfrensia":"boolean (true/false)"
-        }
-    }, 
-    "Comming Soon": "Compumarts"
-}
-
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 async def optios_route():
-    return options
+    html_content = """
+    <html>
+        <head>
+            <title>PC Part Searcher API</title>
+        </head>
+        <body>
+            <h1>Welcome to PC Part Searcher API</h1>
+            <p>Note: Sometimes search might take a while if you selected a big number of vendors</p>
+            <p>Use the following instructions:</p>
+            <ul>
+                <li>Search Endpoint: <code>/api/search</code></li>
+                <li>Search Options:
+                    <ul>
+                        <li>search_term: string (e.g., 'rtx')</li>
+                        <li>source_filters:
+                            <ul>
+                                <li>amazon: boolean (true/false)</li>
+                                <li>baraka: boolean (true/false)</li>
+                                <li>olx: boolean (true/false)</li>
+                                <li>sigma: boolean (true/false)</li>
+                                <li>badr: boolean (true/false)</li>
+                                <li>alfrensia: boolean (true/false)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <p>Coming Soon: Compumarts</p>
+        </body>
+    </html>
+    """
+    return HTMLResponse(content=html_content)
 
 app.include_router(search_bp, prefix="/api")
