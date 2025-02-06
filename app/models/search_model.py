@@ -47,7 +47,7 @@ class SearchModel:
 
             if source_filters.get('baraka'):
                 baraka_spyder = BarakaSpyder()
-                tasks.append(loop.run_in_executor(executor, self.run_spyder, baraka_spyder, baraka_spyder.scrap))
+                tasks.append(loop.run_in_executor(executor, self.run_spyder, baraka_spyder, baraka_spyder.scrap, search_term))
 
             results_list = await asyncio.gather(*tasks, return_exceptions=True)
 
